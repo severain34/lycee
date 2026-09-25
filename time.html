@@ -1,423 +1,657 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<title>Lycee Saint Alexandre Sauli de Muhura — Timetable</title>
-<style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lycee Saint Alexandre Sauli de Muhura — Catholic School (Barnabites)</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-  html, body {
-    width: 100%;
-    height: 100%;
-    font-family: "Segoe UI", Tahoma, sans-serif;
-    background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
-    color: #fff;
-    overflow: hidden;
-  }
+    html, body {
+      width: 100%;
+      height: 100%;
+      font-family: "Segoe UI", Tahoma, sans-serif;
+      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+      color: #fff;
+      overflow: hidden;
+    }
 
-  body::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    background: radial-gradient(circle at 20% 20%, rgba(120, 90, 255, 0.35), transparent 40%),
-                radial-gradient(circle at 80% 70%, rgba(0, 220, 180, 0.25), transparent 45%),
-                radial-gradient(circle at 50% 100%, rgba(255, 100, 150, 0.25), transparent 50%);
-    animation: floatBg 20s ease-in-out infinite alternate;
-    z-index: -1;
-  }
-  @keyframes floatBg {
-    0%   { transform: translate(0, 0) scale(1); }
-    100% { transform: translate(-40px, -30px) scale(1.1); }
-  }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(circle at 20% 20%, rgba(120, 90, 255, 0.35), transparent 40%),
+                  radial-gradient(circle at 80% 70%, rgba(0, 220, 180, 0.25), transparent 45%),
+                  radial-gradient(circle at 50% 100%, rgba(255, 100, 150, 0.25), transparent 50%);
+      animation: floatBg 20s ease-in-out infinite alternate;
+      z-index: -1;
+    }
 
-  .app {
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-    padding: 18px 36px;
-    gap: 14px;
-  }
+    @keyframes floatBg {
+      0%   { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(-40px, -30px) scale(1.1); }
+    }
 
-  /* ============ HEADER ============ */
-  header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 20px;
-    padding-bottom: 12px;
-    border-bottom: 1px solid rgba(255,255,255,0.12);
-  }
+    .app {
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      padding: 18px 36px;
+      gap: 14px;
+    }
 
-  .school-info h1 {
-    font-size: 2.2rem;
-    font-weight: 800;
-    background: linear-gradient(90deg, #ffd166, #ff7eb3);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    letter-spacing: 1px;
-    line-height: 1.1;
-  }
+    /* ============ HEADER ============ */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid rgba(255,255,255,0.12);
+    }
 
-  .school-info .email {
-    font-size: 1rem;
-    color: #8ecae6;
-    margin-top: 4px;
-    letter-spacing: 0.5px;
-  }
+    .school-info {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      min-width: 0;
+    }
 
-  .clock-box { text-align: right; flex-shrink: 0; }
+    /* ===== SCHOOL LOGO ===== */
+    .school-logo {
+      width: 78px;
+      height: 78px;
+      border-radius: 16px;
+      object-fit: contain;
+      background: rgba(255, 255, 255, 0.95);
+      padding: 6px;
+      border: 2px solid rgba(255, 209, 102, 0.6);
+      box-shadow: 0 0 20px rgba(255, 209, 102, 0.45),
+                  0 8px 24px rgba(0, 0, 0, 0.4);
+      flex-shrink: 0;
+      animation: logoGlow 3s ease-in-out infinite alternate;
+      transition: transform 0.3s ease;
+    }
 
-  .clock-time {
-    font-size: 3.2rem;
-    font-weight: 800;
-    color: #06d6a0;
-    font-variant-numeric: tabular-nums;
-    text-shadow: 0 0 25px rgba(6, 214, 160, 0.55);
-    line-height: 1;
-  }
+    .school-logo:hover {
+      transform: scale(1.06);
+    }
 
-  .clock-date {
-    font-size: 1.1rem;
-    color: #b8b8d1;
-    margin-top: 6px;
-  }
+    @keyframes logoGlow {
+      0%   { box-shadow: 0 0 14px rgba(255, 209, 102, 0.35), 0 8px 24px rgba(0, 0, 0, 0.4); }
+      100% { box-shadow: 0 0 26px rgba(6, 214, 160, 0.75), 0 8px 24px rgba(0, 0, 0, 0.4); }
+    }
 
-  .live-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 0.85rem;
-    color: #ff7eb3;
-    margin-top: 4px;
-    letter-spacing: 2px;
-    font-weight: 700;
-  }
+    .school-text {
+      min-width: 0;
+    }
 
-  .dot {
-    width: 10px; height: 10px;
-    border-radius: 50%;
-    background: #ff7eb3;
-    animation: blink 1.2s infinite;
-  }
-  @keyframes blink { 50% { opacity: 0.2; } }
+    .school-info h1 {
+      font-size: 2.2rem;
+      font-weight: 800;
+      letter-spacing: 2px;
+      line-height: 1.1;
+      background: linear-gradient(90deg, #ffd166, #ff7eb3, #06d6a0, #ffd166);
+      background-size: 300% 100%;
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      animation: shimmer 4s linear infinite, glowPulse 2.5s ease-in-out infinite alternate;
+      min-height: 2.5rem;
+      white-space: nowrap;
+    }
 
-  /* ============ PROGRESS ============ */
-  .day-progress {
-    height: 8px;
-    background: rgba(255,255,255,0.08);
-    border-radius: 20px;
-    overflow: hidden;
-  }
-  .day-progress-fill {
-    height: 100%;
-    width: 0%;
-    border-radius: 20px;
-    background: linear-gradient(90deg, #06d6a0, #ffd166);
-    transition: width 1s linear;
-  }
+    @keyframes shimmer {
+      0%   { background-position: 0% 50%; }
+      100% { background-position: 300% 50%; }
+    }
 
-  /* ============ MAIN FOCUS AREA ============ */
-  .focus {
-    flex: 1;
-    display: grid;
-    grid-template-columns: 1.4fr 1fr;
-    gap: 20px;
-    min-height: 0;
-  }
+    @keyframes glowPulse {
+      0%   { filter: drop-shadow(0 0 6px rgba(255, 209, 102, 0.4)); }
+      100% { filter: drop-shadow(0 0 18px rgba(255, 126, 179, 0.8)); }
+    }
 
-  /* LEFT: current activity (hero card) */
-  .current-wrap {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 18px;
-    min-height: 0;
-  }
+    /* Typing cursor */
+    .cursor {
+      display: inline-block;
+      width: 3px;
+      height: 2rem;
+      background: #ffd166;
+      margin-left: 4px;
+      vertical-align: middle;
+      animation: cursorBlink 0.8s steps(1) infinite;
+      box-shadow: 0 0 10px rgba(255, 209, 102, 0.8);
+    }
 
-  .hero-card {
-    position: relative;
-    border-radius: 26px;
-    padding: 44px 50px;
-    background: rgba(255, 255, 255, 0.08);
-    backdrop-filter: blur(18px);
-    -webkit-backdrop-filter: blur(18px);
-    border: 1px solid rgba(255, 255, 255, 0.18);
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
-    overflow: hidden;
-    transition: transform 0.4s ease;
-  }
+    @keyframes cursorBlink {
+      0%, 50% { opacity: 1; }
+      51%, 100% { opacity: 0; }
+    }
 
-  .hero-card::before {
-    content: "";
-    position: absolute;
-    left: 0; top: 0; bottom: 0;
-    width: 12px;
-  }
+    .school-info .subline {
+      font-size: 0.95rem;
+      color: #ffd166;
+      margin-top: 6px;
+      letter-spacing: 1px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
 
-  .hero-card .label {
-    font-size: 1.1rem;
-    font-weight: 800;
-    letter-spacing: 4px;
-    color: #06d6a0;
-    margin-bottom: 14px;
-  }
+    .school-info .subline .cross {
+      font-size: 1.1rem;
+      filter: drop-shadow(0 0 8px rgba(255, 209, 102, 0.8));
+    }
 
-  .hero-card .time {
-    font-size: 1.6rem;
-    font-weight: 700;
-    color: #cfd3e6;
-    letter-spacing: 2px;
-  }
+    /* Contact block: email ABOVE, website BELOW */
+    .school-info .contact-block {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      margin-top: 6px;
+      font-size: 0.95rem;
+      letter-spacing: 0.5px;
+    }
 
-  .hero-card .name {
-    font-size: 4.2rem;
-    font-weight: 900;
-    line-height: 1.05;
-    margin-top: 10px;
-    letter-spacing: -1px;
-  }
+    .school-info .email {
+      color: #8ecae6;
+    }
 
-  .hero-card .tag {
-    display: inline-block;
-    margin-top: 22px;
-    font-size: 1rem;
-    padding: 8px 18px;
-    border-radius: 30px;
-    background: rgba(0,0,0,0.35);
-    letter-spacing: 2px;
-    font-weight: 700;
-  }
+    .school-info .website {
+      color: #06d6a0;
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.3s ease, text-shadow 0.3s ease;
+      width: fit-content;
+    }
 
-  /* Activity colors */
-  .self-study::before { background: #8ecae6; }
-  .self-study .name   { color: #8ecae6; }
-  .self-study .tag    { background: #8ecae6; color: #0f1220; }
+    .school-info .website:hover {
+      color: #ffd166;
+      text-shadow: 0 0 12px rgba(255, 209, 102, 0.8);
+    }
 
-  .breakfast::before  { background: #ffb703; }
-  .breakfast .name    { color: #ffb703; }
-  .breakfast .tag     { background: #ffb703; color: #0f1220; }
+    .clock-box {
+      text-align: right;
+      flex-shrink: 0;
+    }
 
-  .class::before      { background: #90be6d; }
-  .class .name        { color: #90be6d; }
-  .class .tag         { background: #90be6d; color: #0f1220; }
+    .clock-time {
+      font-size: 3.2rem;
+      font-weight: 800;
+      color: #06d6a0;
+      font-variant-numeric: tabular-nums;
+      text-shadow: 0 0 25px rgba(6, 214, 160, 0.55);
+      line-height: 1;
+    }
 
-  .break::before      { background: #f4a261; }
-  .break .name        { color: #f4a261; }
-  .break .tag         { background: #f4a261; color: #0f1220; }
+    .clock-date {
+      font-size: 1.1rem;
+      color: #b8b8d1;
+      margin-top: 6px;
+    }
 
-  .lunch::before      { background: #e76f51; }
-  .lunch .name        { color: #e76f51; }
-  .lunch .tag         { background: #e76f51; }
+    .live-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.85rem;
+      color: #ff7eb3;
+      margin-top: 4px;
+      letter-spacing: 2px;
+      font-weight: 700;
+    }
 
-  .afternoon::before  { background: #a29bfe; }
-  .afternoon .name    { color: #a29bfe; }
-  .afternoon .tag     { background: #a29bfe; color: #0f1220; }
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #ff7eb3;
+      animation: blink 1.2s infinite;
+    }
 
-  .evening::before    { background: #74b9ff; }
-  .evening .name      { color: #74b9ff; }
-  .evening .tag       { background: #74b9ff; color: #0f1220; }
+    @keyframes blink {
+      50% { opacity: 0.2; }
+    }
 
-  .cleaning::before   { background: #a5c9ca; }
-  .cleaning .name     { color: #a5c9ca; }
-  .cleaning .tag      { background: #a5c9ca; color: #0f1220; }
+    /* ============ PROGRESS ============ */
+    .day-progress {
+      height: 8px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 20px;
+      overflow: hidden;
+    }
 
-  .movie::before      { background: #fd79a8; }
-  .movie .name        { color: #fd79a8; }
-  .movie .tag         { background: #fd79a8; }
+    .day-progress-fill {
+      height: 100%;
+      width: 0%;
+      border-radius: 20px;
+      background: linear-gradient(90deg, #06d6a0, #ffd166);
+      transition: width 1s linear;
+    }
 
-  .mass::before       { background: #fdcb6e; }
-  .mass .name         { color: #fdcb6e; }
-  .mass .tag          { background: #fdcb6e; color: #0f1220; }
+    /* ============ MAIN GRID ============ */
+    .main-grid {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 340px 1fr;
+      gap: 24px;
+      min-height: 0;
+    }
 
-  .club::before       { background: #55efc4; }
-  .club .name         { color: #55efc4; }
-  .club .tag          { background: #55efc4; color: #0f1220; }
+    /* ============ LEFT: TRADES PANEL ============ */
+    .trades-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      min-height: 0;
+      overflow-y: auto;
+      padding-right: 4px;
+    }
 
-  .etude::before      { background: #b2bec3; }
-  .etude .name        { color: #b2bec3; }
-  .etude .tag         { background: #b2bec3; color: #0f1220; }
+    .trades-panel::-webkit-scrollbar {
+      width: 6px;
+    }
+    .trades-panel::-webkit-scrollbar-thumb {
+      background: rgba(255,255,255,0.15);
+      border-radius: 10px;
+    }
 
-  .dinner::before     { background: #ff8fab; }
-  .dinner .name       { color: #ff8fab; }
-  .dinner .tag        { background: #ff8fab; color: #0f1220; }
+    .trades-header {
+      font-size: 1.1rem;
+      font-weight: 800;
+      letter-spacing: 4px;
+      color: #ffd166;
+      padding-bottom: 8px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
 
-  /* LIVE indicator on hero */
-  .hero-card::after {
-    content: "● LIVE NOW";
-    position: absolute;
-    top: 22px; right: 26px;
-    font-size: 0.95rem;
-    font-weight: 800;
-    letter-spacing: 2px;
-    color: #ff4d6d;
-    animation: blink 1.5s infinite;
-  }
+    .trade-card {
+      border-radius: 20px;
+      padding: 20px 22px;
+      background: rgba(255, 255, 255, 0.07);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: default;
+    }
 
-  /* ============ RIGHT COLUMN ============ */
-  .side {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    min-height: 0;
-  }
+    .trade-card:hover {
+      transform: translateX(6px);
+      box-shadow: 0 14px 40px rgba(0, 0, 0, 0.4);
+    }
 
-  .next-card {
-    border-radius: 20px;
-    padding: 22px 26px;
-    background: rgba(255, 255, 255, 0.06);
-    backdrop-filter: blur(14px);
-    border: 1px solid rgba(255, 255, 255, 0.14);
-    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.25);
-  }
+    .trade-card .icon {
+      font-size: 2.2rem;
+      width: 54px;
+      height: 54px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 16px;
+      flex-shrink: 0;
+    }
 
-  .next-card .head {
-    font-size: 0.9rem;
-    font-weight: 800;
-    letter-spacing: 3px;
-    color: #ffd166;
-    margin-bottom: 12px;
-  }
+    .trade-card .info h3 {
+      font-size: 1.35rem;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+    }
 
-  .next-card .next-name {
-    font-size: 2rem;
-    font-weight: 800;
-    line-height: 1.1;
-    color: #ffffff;
-  }
+    .trade-card .info p {
+      font-size: 0.85rem;
+      color: #b8b8d1;
+      margin-top: 3px;
+      letter-spacing: 0.5px;
+    }
 
-  .next-card .next-time {
-    font-size: 1.15rem;
-    color: #b8b8d1;
-    margin-top: 8px;
-    letter-spacing: 1px;
-  }
+    /* Trade specific colors */
+    .trade-swd .icon { background: rgba(255, 159, 28, 0.2); color: #ff9f1c; }
+    .trade-swd .info h3 { color: #ff9f1c; }
 
-  /* Quote card */
-  .quote-card {
-    flex: 1;
-    border-radius: 20px;
-    padding: 28px 30px;
-    background: linear-gradient(135deg, rgba(120, 90, 255, 0.25), rgba(0, 220, 180, 0.15));
-    border: 1px solid rgba(255, 255, 255, 0.16);
-    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.25);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 16px;
-    position: relative;
-    overflow: hidden;
-  }
+    .trade-nit .icon { background: rgba(46, 196, 182, 0.2); color: #2ec4b6; }
+    .trade-nit .info h3 { color: #2ec4b6; }
 
-  .quote-card::before {
-    content: "❝";
-    position: absolute;
-    top: -20px;
-    left: 10px;
-    font-size: 9rem;
-    color: rgba(255, 255, 255, 0.07);
-    font-family: serif;
-  }
+    .trade-csa .icon { background: rgba(157, 78, 221, 0.2); color: #9d4edd; }
+    .trade-csa .info h3 { color: #9d4edd; }
 
-  .quote-card .quote {
-    font-size: 1.55rem;
-    font-weight: 700;
-    line-height: 1.4;
-    color: #ffffff;
-    z-index: 1;
-  }
+    .trade-fad .icon { background: rgba(255, 107, 107, 0.2); color: #ff6b6b; }
+    .trade-fad .info h3 { color: #ff6b6b; }
 
-  .quote-card .author {
-    font-size: 1.05rem;
-    color: #ffd166;
-    letter-spacing: 1px;
-    font-weight: 700;
-    z-index: 1;
-  }
+    .trade-acc .icon { background: rgba(78, 205, 196, 0.2); color: #4ecdc4; }
+    .trade-acc .info h3 { color: #4ecdc4; }
 
-  /* ============ NO SESSION SCREEN ============ */
-  .no-session {
-    grid-column: 1 / -1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 22px;
-    text-align: center;
-    padding: 40px 20px;
-  }
+    /* ============ RIGHT: ACTIVITY AREA ============ */
+    .activity-area {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      min-height: 0;
+      overflow-y: auto;
+      padding-right: 4px;
+    }
 
-  .no-session .icon {
-    font-size: 6rem;
-    animation: floatIcon 3s ease-in-out infinite;
-  }
+    .activity-area::-webkit-scrollbar {
+      width: 6px;
+    }
+    .activity-area::-webkit-scrollbar-thumb {
+      background: rgba(255,255,255,0.15);
+      border-radius: 10px;
+    }
 
-  @keyframes floatIcon {
-    0%, 100% { transform: translateY(0); }
-    50%      { transform: translateY(-15px); }
-  }
+    /* Current hero card */
+    .hero-card {
+      position: relative;
+      border-radius: 26px;
+      padding: 36px 44px;
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+      overflow: hidden;
+      transition: transform 0.4s ease;
+      flex-shrink: 0;
+    }
 
-  .no-session h2 {
-    font-size: 3rem;
-    font-weight: 900;
-    background: linear-gradient(90deg, #ff7eb3, #ffd166);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    letter-spacing: 1px;
-  }
+    .hero-card::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 12px;
+    }
 
-  .no-session p {
-    font-size: 1.3rem;
-    color: #b8b8d1;
-    max-width: 800px;
-  }
+    .hero-card .label {
+      font-size: 1rem;
+      font-weight: 800;
+      letter-spacing: 4px;
+      color: #06d6a0;
+      margin-bottom: 12px;
+    }
 
-  .no-session .next-info {
-    margin-top: 14px;
-    padding: 22px 40px;
-    background: rgba(255,255,255,0.08);
-    border: 1px solid rgba(255,255,255,0.15);
-    border-radius: 18px;
-    backdrop-filter: blur(12px);
-  }
+    .hero-card .time {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #cfd3e6;
+      letter-spacing: 2px;
+    }
 
-  .no-session .next-info .label {
-    font-size: 1rem;
-    color: #06d6a0;
-    letter-spacing: 3px;
-    font-weight: 800;
-  }
+    .hero-card .name {
+      font-size: 3.4rem;
+      font-weight: 900;
+      line-height: 1.05;
+      margin-top: 8px;
+      letter-spacing: -1px;
+    }
 
-  .no-session .next-info .next-name {
-    font-size: 2.1rem;
-    font-weight: 800;
-    margin-top: 8px;
-  }
+    .hero-card .tag {
+      display: inline-block;
+      margin-top: 18px;
+      font-size: 0.95rem;
+      padding: 7px 16px;
+      border-radius: 30px;
+      background: rgba(0,0,0,0.35);
+      letter-spacing: 2px;
+      font-weight: 700;
+    }
 
-  .no-session .next-info .next-time {
-    font-size: 1.25rem;
-    color: #cfd3e6;
-    margin-top: 6px;
-  }
+    .hero-card::after {
+      content: "● LIVE NOW";
+      position: absolute;
+      top: 22px;
+      right: 26px;
+      font-size: 0.9rem;
+      font-weight: 800;
+      letter-spacing: 2px;
+      color: #ff4d6d;
+      animation: blink 1.5s infinite;
+    }
 
-  /* ============ FOOTER ============ */
-  footer {
-    text-align: center;
-    font-size: 0.95rem;
-    color: #7a7e9c;
-    padding-top: 8px;
-    border-top: 1px solid rgba(255,255,255,0.08);
-    letter-spacing: 1px;
-  }
-</style>
+    /* Activity colors */
+    .self-study::before { background: #8ecae6; }
+    .self-study .name   { color: #8ecae6; }
+    .self-study .tag    { background: #8ecae6; color: #0f1220; }
+
+    .breakfast::before  { background: #ffb703; }
+    .breakfast .name    { color: #ffb703; }
+    .breakfast .tag     { background: #ffb703; color: #0f1220; }
+
+    .class::before      { background: #90be6d; }
+    .class .name        { color: #90be6d; }
+    .class .tag         { background: #90be6d; color: #0f1220; }
+
+    .break::before      { background: #f4a261; }
+    .break .name        { color: #f4a261; }
+    .break .tag         { background: #f4a261; color: #0f1220; }
+
+    .lunch::before      { background: #e76f51; }
+    .lunch .name        { color: #e76f51; }
+    .lunch .tag         { background: #e76f51; }
+
+    .afternoon::before  { background: #a29bfe; }
+    .afternoon .name    { color: #a29bfe; }
+    .afternoon .tag     { background: #a29bfe; color: #0f1220; }
+
+    .evening::before    { background: #74b9ff; }
+    .evening .name      { color: #74b9ff; }
+    .evening .tag       { background: #74b9ff; color: #0f1220; }
+
+    .cleaning::before   { background: #a5c9ca; }
+    .cleaning .name     { color: #a5c9ca; }
+    .cleaning .tag      { background: #a5c9ca; color: #0f1220; }
+
+    .movie::before      { background: #fd79a8; }
+    .movie .name        { color: #fd79a8; }
+    .movie .tag         { background: #fd79a8; }
+
+    .mass::before       { background: #fdcb6e; }
+    .mass .name         { color: #fdcb6e; }
+    .mass .tag          { background: #fdcb6e; color: #0f1220; }
+
+    .club::before       { background: #55efc4; }
+    .club .name         { color: #55efc4; }
+    .club .tag          { background: #55efc4; color: #0f1220; }
+
+    .dinner::before     { background: #ff8fab; }
+    .dinner .name       { color: #ff8fab; }
+    .dinner .tag        { background: #ff8fab; color: #0f1220; }
+
+    /* Next + Quote row */
+    .bottom-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      flex: 1;
+      min-height: 0;
+    }
+
+    .next-card {
+      border-radius: 20px;
+      padding: 22px 26px;
+      background: rgba(255, 255, 255, 0.06);
+      backdrop-filter: blur(14px);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      box-shadow: 0 10px 35px rgba(0, 0, 0, 0.25);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .next-card .head {
+      font-size: 0.85rem;
+      font-weight: 800;
+      letter-spacing: 3px;
+      color: #ffd166;
+      margin-bottom: 12px;
+    }
+
+    .next-card .next-name {
+      font-size: 1.8rem;
+      font-weight: 800;
+      line-height: 1.1;
+      color: #ffffff;
+    }
+
+    .next-card .next-time {
+      font-size: 1.05rem;
+      color: #b8b8d1;
+      margin-top: 8px;
+      letter-spacing: 1px;
+    }
+
+    .quote-card {
+      border-radius: 20px;
+      padding: 24px 28px;
+      background: linear-gradient(135deg, rgba(120, 90, 255, 0.25), rgba(0, 220, 180, 0.15));
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      box-shadow: 0 10px 35px rgba(0, 0, 0, 0.25);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 14px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .quote-card::before {
+      content: "❝";
+      position: absolute;
+      top: -20px;
+      left: 10px;
+      font-size: 8rem;
+      color: rgba(255, 255, 255, 0.07);
+      font-family: serif;
+    }
+
+    .quote-card .quote {
+      font-size: 1.25rem;
+      font-weight: 700;
+      line-height: 1.4;
+      color: #ffffff;
+      z-index: 1;
+    }
+
+    .quote-card .author {
+      font-size: 0.95rem;
+      color: #ffd166;
+      letter-spacing: 1px;
+      font-weight: 700;
+      z-index: 1;
+    }
+
+    /* ============ NO SESSION ============ */
+    .no-session {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 18px;
+      text-align: center;
+      padding: 30px 20px;
+      flex: 1;
+      min-height: 0;
+    }
+
+    .no-session .icon {
+      font-size: 4.5rem;
+      animation: floatIcon 3s ease-in-out infinite;
+    }
+
+    @keyframes floatIcon {
+      0%, 100% { transform: translateY(0); }
+      50%      { transform: translateY(-15px); }
+    }
+
+    .no-session h2 {
+      font-size: 2.4rem;
+      font-weight: 900;
+      background: linear-gradient(90deg, #ff7eb3, #ffd166);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      letter-spacing: 1px;
+    }
+
+    .no-session p {
+      font-size: 1.15rem;
+      color: #b8b8d1;
+      max-width: 600px;
+    }
+
+    .no-session .next-info {
+      margin-top: 10px;
+      padding: 20px 36px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 18px;
+      backdrop-filter: blur(12px);
+    }
+
+    .no-session .next-info .label {
+      font-size: 0.9rem;
+      color: #06d6a0;
+      letter-spacing: 3px;
+      font-weight: 800;
+    }
+
+    .no-session .next-info .next-name {
+      font-size: 1.8rem;
+      font-weight: 800;
+      margin-top: 8px;
+    }
+
+    .no-session .next-info .next-time {
+      font-size: 1.1rem;
+      color: #cfd3e6;
+      margin-top: 6px;
+    }
+
+    /* ============ FOOTER ============ */
+    footer {
+      text-align: center;
+      font-size: 0.95rem;
+      color: #7a7e9c;
+      padding-top: 8px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      letter-spacing: 1px;
+    }
+
+    footer .barnabite {
+      color: #ffd166;
+      font-weight: 700;
+    }
+  </style>
 </head>
 <body>
   <div class="app">
     <header>
       <div class="school-info">
-        <h1>LYCEE SAINT ALEXANDRE SAULI DE MUHURA</h1>
-        <div class="email">✉ Lyceesaintalexandresauli@gmail.com</div>
+        <!-- ===== SCHOOL LOGO ===== -->
+        <img src="school-logo.png" alt="Lycee Saint Alexandre Sauli de Muhura Logo" class="school-logo" />
+
+        <div class="school-text">
+          <h1 id="schoolName"><span id="typed"></span><span class="cursor"></span></h1>
+          <div class="subline">
+            <span class="cross">✝</span>
+            <span>Catholic School • Founded by the Barnabites (Clerics Regular of St. Alexandre Sauli)</span>
+          </div>
+          <!-- Email ABOVE, Website BELOW -->
+          <div class="contact-block">
+            <span class="email">✉ Lyceesaintalexandresauli@gmail.com</span>
+            <a class="website" href="https://www.lyceemuhura.rw" target="_blank" rel="noopener">🌐 www.lyceemuhura.rw</a>
+          </div>
+        </div>
       </div>
       <div class="clock-box">
         <div class="clock-time" id="clockTime">--:--:--</div>
@@ -430,387 +664,468 @@
       <div class="day-progress-fill" id="progressFill"></div>
     </div>
 
-    <div class="focus" id="focus"></div>
+    <!-- MAIN GRID: LEFT = TRADES, RIGHT = ACTIVITY -->
+    <div class="main-grid">
+      <!-- LEFT: ALL TRADES (ONLY HERE) -->
+      <div class="trades-panel">
+        <div class="trades-header">TRADES OFFERED</div>
 
-    <footer>LYCEE SAINT ALEXANDRE SAULI DE MUHURA • Discipline • Excellence • Success</footer>
+        <div class="trade-card trade-swd" id="trade-swd">
+          <div class="icon">💻</div>
+          <div class="info">
+            <h3>SWD</h3>
+            <p>Software Development</p>
+          </div>
+        </div>
+
+        <div class="trade-card trade-nit" id="trade-nit">
+          <div class="icon">🌐</div>
+          <div class="info">
+            <h3>NIT</h3>
+            <p>Networking &amp; Internet Tech</p>
+          </div>
+        </div>
+
+        <div class="trade-card trade-csa" id="trade-csa">
+          <div class="icon">☁️</div>
+          <div class="info">
+            <h3>CSA</h3>
+            <p>Cloud &amp; System Admin</p>
+          </div>
+        </div>
+
+        <div class="trade-card trade-fad" id="trade-fad">
+          <div class="icon">🎨</div>
+          <div class="info">
+            <h3>FAD</h3>
+            <p>Fashion &amp; Design</p>
+          </div>
+        </div>
+
+        <div class="trade-card trade-acc" id="trade-acc">
+          <div class="icon">📊</div>
+          <div class="info">
+            <h3>ACC</h3>
+            <p>Accounting</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT: ACTIVITY AREA (NO TRADES HERE) -->
+      <div class="activity-area" id="activityArea">
+        <!-- rendered by JS -->
+      </div>
+    </div>
+
+    <footer>
+      LYCEE SAINT ALEXANDRE SAULI DE MUHURA • <span class="barnabite">Catholic School Founded by the Barnabites</span> • Discipline • Excellence • Success
+    </footer>
   </div>
 
-<script>
-/* =====================================================
-   1. TIME SLOTS
-   ===================================================== */
-const timeSlots = [
-  { start: "06:00", end: "07:00" },   // 0  Morning Self-Study
-  { start: "07:00", end: "07:30" },   // 1  Breakfast
-  { start: "07:30", end: "08:00" },   // 2  Prep
-  { start: "08:00", end: "08:40" },   // 3  Class
-  { start: "08:40", end: "09:20" },   // 4  Class
-  { start: "09:20", end: "10:00" },   // 5  Class
-  { start: "10:00", end: "10:30" },   // 6  Break
-  { start: "10:30", end: "11:10" },   // 7  Class
-  { start: "11:10", end: "11:50" },   // 8  Class
-  { start: "11:50", end: "12:30" },   // 9  Class
-  { start: "12:30", end: "13:30" },   // 10 Lunch
-  { start: "13:30", end: "14:10" },   // 11 Class
-  { start: "14:10", end: "14:50" },   // 12 Class
-  { start: "14:50", end: "15:30" },   // 13 Class
-  { start: "15:30", end: "17:00" },   // 14 Afternoon Self-Study
-  { start: "17:00", end: "18:00" },   // 15 Rest
-  { start: "18:00", end: "18:30" },   // 16 Short Break
-  { start: "18:30", end: "20:30" },   // 17 Evening Self-Study
-  { start: "20:30", end: "21:15" }    // 18 Dinner
-];
+  <script>
+    /* =====================================================
+       LIVE WRITING ANIMATION — no "WELCOME TO"
+       ===================================================== */
+    const fullText = "LYCEE SAINT ALEXANDRE SAULI DE MUHURA";
+    const typedEl = document.getElementById("typed");
+    let typeIdx = 0;
+    let isDeleting = false;
 
-/* =====================================================
-   2. WEEKLY SCHEDULE
-   ===================================================== */
-const schedule = {
-  Monday: [
-    { text: "Morning Self-Study", type: "self-study" },
-    { text: "Breakfast", type: "breakfast" },
-    { text: "Prep", type: "self-study" },
-    { text: "Mathematics", type: "class" },
-    { text: "English", type: "class" },
-    { text: "Biology", type: "class" },
-    { text: "BREAK", type: "break" },
-    { text: "Physics", type: "class" },
-    { text: "Chemistry", type: "class" },
-    { text: "Geography", type: "class" },
-    { text: "LUNCH", type: "lunch" },
-    { text: "History", type: "class" },
-    { text: "Computer", type: "class" },
-    { text: "Kinyarwanda", type: "class" },
-    { text: "Afternoon Self-Study", type: "afternoon" },
-    { text: "Rest / Free Time", type: "break" },
-    { text: "Short Break", type: "break" },
-    { text: "Evening Self-Study", type: "evening" },
-    { text: "Dinner", type: "dinner" }
-  ],
-  Tuesday: [
-    { text: "Morning Self-Study", type: "self-study" },
-    { text: "Breakfast", type: "breakfast" },
-    { text: "Prep", type: "self-study" },
-    { text: "Physics", type: "class" },
-    { text: "Mathematics", type: "class" },
-    { text: "English", type: "class" },
-    { text: "BREAK", type: "break" },
-    { text: "Chemistry", type: "class" },
-    { text: "Biology", type: "class" },
-    { text: "Geography", type: "class" },
-    { text: "LUNCH", type: "lunch" },
-    { text: "History", type: "class" },
-    { text: "Computer", type: "class" },
-    { text: "French", type: "class" },
-    { text: "Afternoon Self-Study", type: "afternoon" },
-    { text: "Rest / Free Time", type: "break" },
-    { text: "Short Break", type: "break" },
-    { text: "Evening Self-Study", type: "evening" },
-    { text: "Dinner", type: "dinner" }
-  ],
-  Wednesday: [
-    { text: "Morning Self-Study", type: "self-study" },
-    { text: "Breakfast", type: "breakfast" },
-    { text: "Prep", type: "self-study" },
-    { text: "English", type: "class" },
-    { text: "Physics", type: "class" },
-    { text: "Mathematics", type: "class" },
-    { text: "BREAK", type: "break" },
-    { text: "Biology", type: "class" },
-    { text: "Chemistry", type: "class" },
-    { text: "History", type: "class" },
-    { text: "LUNCH", type: "lunch" },
-    { text: "Geography", type: "class" },
-    { text: "Kinyarwanda", type: "class" },
-    { text: "Computer", type: "class" },
-    { text: "Afternoon Self-Study", type: "afternoon" },
-    { text: "Rest / Free Time", type: "break" },
-    { text: "Short Break", type: "break" },
-    { text: "Evening Self-Study", type: "evening" },
-    { text: "Dinner", type: "dinner" }
-  ],
-  Thursday: [
-    { text: "Morning Self-Study", type: "self-study" },
-    { text: "Breakfast", type: "breakfast" },
-    { text: "Prep", type: "self-study" },
-    { text: "Chemistry", type: "class" },
-    { text: "English", type: "class" },
-    { text: "Physics", type: "class" },
-    { text: "BREAK", type: "break" },
-    { text: "Mathematics", type: "class" },
-    { text: "Biology", type: "class" },
-    { text: "French", type: "class" },
-    { text: "LUNCH", type: "lunch" },
-    { text: "History", type: "class" },
-    { text: "Geography", type: "class" },
-    { text: "Kinyarwanda", type: "class" },
-    { text: "Afternoon Self-Study", type: "afternoon" },
-    { text: "Rest / Free Time", type: "break" },
-    { text: "Short Break", type: "break" },
-    { text: "Evening Self-Study", type: "evening" },
-    { text: "Dinner", type: "dinner" }
-  ],
-  Friday: [
-    { text: "Morning Self-Study", type: "self-study" },
-    { text: "Breakfast", type: "breakfast" },
-    { text: "Prep", type: "self-study" },
-    { text: "Biology", type: "class" },
-    { text: "Mathematics", type: "class" },
-    { text: "Chemistry", type: "class" },
-    { text: "BREAK", type: "break" },
-    { text: "English", type: "class" },
-    { text: "Physics", type: "class" },
-    { text: "Computer", type: "class" },
-    { text: "LUNCH", type: "lunch" },
-    { text: "Geography", type: "class" },
-    { text: "History", type: "class" },
-    { text: "French", type: "class" },
-    { text: "Afternoon Self-Study", type: "afternoon" },
-    { text: "Rest / Free Time", type: "break" },
-    { text: "Short Break", type: "break" },
-    { text: "Evening Self-Study", type: "evening" },
-    { text: "Dinner", type: "dinner" }
-  ],
-  Saturday: [
-    { text: "Morning Self-Study", type: "self-study" },
-    { text: "Breakfast", type: "breakfast" },
-    { text: "Cleaning", type: "cleaning" },
-    { text: "Cleaning", type: "cleaning" },
-    { text: "Cleaning", type: "cleaning" },
-    { text: "Cleaning", type: "cleaning" },
-    { text: "BREAK", type: "break" },
-    { text: "Self-Study", type: "self-study" },
-    { text: "Self-Study", type: "self-study" },
-    { text: "Self-Study", type: "self-study" },
-    { text: "LUNCH", type: "lunch" },
-    { text: "Movie", type: "movie" },
-    { text: "Movie", type: "movie" },
-    { text: "Movie", type: "movie" },
-    { text: "Afternoon Self-Study", type: "afternoon" },
-    { text: "Rest / Free Time", type: "break" },
-    { text: "Short Break", type: "break" },
-    { text: "Evening Self-Study", type: "evening" },
-    { text: "Dinner", type: "dinner" }
-  ],
-  Sunday: [
-    { text: "Morning Self-Study", type: "self-study" },
-    { text: "Breakfast", type: "breakfast" },
-    { text: "Self-Study", type: "self-study" },
-    { text: "Self-Study", type: "self-study" },
-    { text: "Self-Study", type: "self-study" },
-    { text: "Prep for Mass", type: "self-study" },
-    { text: "BREAK", type: "break" },
-    { text: "Mass", type: "mass" },
-    { text: "Mass", type: "mass" },
-    { text: "Mass", type: "mass" },
-    { text: "LUNCH", type: "lunch" },
-    { text: "Club", type: "club" },
-    { text: "Club", type: "club" },
-    { text: "Club", type: "club" },
-    { text: "Afternoon Self-Study", type: "afternoon" },
-    { text: "Rest / Free Time", type: "break" },
-    { text: "Short Break", type: "break" },
-    { text: "Evening Self-Study", type: "evening" },
-    { text: "Dinner", type: "dinner" }
-  ]
-};
+    function typeLoop() {
+      if (!isDeleting) {
+        typedEl.textContent = fullText.substring(0, typeIdx + 1);
+        typeIdx++;
 
-const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+        if (typeIdx === fullText.length) {
+          isDeleting = true;
+          setTimeout(typeLoop, 2500);
+          return;
+        }
+        setTimeout(typeLoop, 90);
+      } else {
+        typedEl.textContent = fullText.substring(0, typeIdx - 1);
+        typeIdx--;
 
-/* =====================================================
-   3. MOTIVATIONAL QUOTES (student-focused)
-   ===================================================== */
-const quotes = [
-  { text: "Success is the sum of small efforts repeated day in and day out.", author: "— Robert Collier" },
-  { text: "The future belongs to those who prepare for it today.", author: "— Malcolm X" },
-  { text: "Don't watch the clock; do what it does. Keep going.", author: "— Sam Levenson" },
-  { text: "Education is the most powerful weapon you can use to change the world.", author: "— Nelson Mandela" },
-  { text: "Study hard, for the well is deep and our brains are shallow.", author: "— Richard Baxter" },
-  { text: "Believe you can and you're halfway there.", author: "— Theodore Roosevelt" },
-  { text: "The expert in anything was once a beginner.", author: "— Helen Hayes" },
-  { text: "Push yourself, because no one else is going to do it for you.", author: "— Unknown" },
-  { text: "Great things never come from comfort zones.", author: "— Unknown" },
-  { text: "Dream big. Work hard. Stay focused.", author: "— Unknown" },
-  { text: "Your only limit is your mind.", author: "— Unknown" },
-  { text: "Every accomplishment starts with the decision to try.", author: "— John F. Kennedy" },
-  { text: "Discipline is the bridge between goals and accomplishment.", author: "— Jim Rohn" },
-  { text: "The pain of studying is temporary. The pain of ignorance lasts forever.", author: "— Unknown" },
-  { text: "Work hard in silence. Let success make the noise.", author: "— Unknown" }
-];
-
-/* =====================================================
-   4. HELPERS
-   ===================================================== */
-function toMinutes(hhmm) {
-  const [h, m] = hhmm.split(":").map(Number);
-  return h * 60 + m;
-}
-
-function getActiveDay(now) {
-  const jsDay = now.getDay();
-  const todayIdx = (jsDay + 6) % 7;
-  const currentMin = now.getHours() * 60 + now.getMinutes();
-
-  const dayStart = toMinutes(timeSlots[0].start);
-  const dayEnd   = toMinutes(timeSlots[timeSlots.length - 1].end);
-
-  if (currentMin >= dayEnd) {
-    const next = new Date(now);
-    next.setDate(next.getDate() + 1);
-    return { name: days[(todayIdx + 1) % 7], date: next, isTomorrow: true };
-  }
-  if (currentMin < dayStart) {
-    return { name: days[todayIdx], date: now, isTomorrow: false };
-  }
-  return { name: days[todayIdx], date: now, isTomorrow: false };
-}
-
-function findActiveSlot(list, currentMin) {
-  for (let i = 0; i < list.length; i++) {
-    const start = toMinutes(timeSlots[i].start);
-    const end   = toMinutes(timeSlots[i].end);
-    if (currentMin >= start && currentMin < end) return i;
-  }
-  return -1;
-}
-
-function findNextActivity(list, currentMin) {
-  for (let i = 0; i < list.length; i++) {
-    const start = toMinutes(timeSlots[i].start);
-    if (currentMin < start) return i;
-  }
-  return -1;
-}
-
-/* Pick a quote based on the day so it changes daily (not every second) */
-function quoteOfTheDay(dayName) {
-  const idx = days.indexOf(dayName);
-  return quotes[idx % quotes.length];
-}
-
-/* =====================================================
-   5. RENDER
-   ===================================================== */
-const focusEl = document.getElementById("focus");
-
-function renderDay(activeDay, now) {
-  const dayName = activeDay.name;
-  const dateObj = activeDay.date;
-  const list = schedule[dayName];
-  const currentMin = now.getHours() * 60 + now.getMinutes();
-
-  /* Header date */
-  document.getElementById("clockDate").textContent =
-    dateObj.toLocaleDateString(undefined, {
-      weekday: "long",
-      day: "numeric",
-      month: "long"
-    }) + (activeDay.isTomorrow ? " • Tomorrow" : "");
-
-  /* Find active slot (only one) */
-  const activeIndex = activeDay.isTomorrow
-    ? -1
-    : findActiveSlot(list, currentMin);
-
-  /* ====== CASE 1: NO ACTIVE SESSION ====== */
-  if (activeIndex === -1) {
-    const nextIndex = findNextActivity(list, currentMin);
-    let nextHtml = "";
-
-    if (nextIndex !== -1) {
-      const a = list[nextIndex];
-      nextHtml = `
-        <div class="next-info">
-          <div class="label">NEXT UP</div>
-          <div class="next-name">${a.text}</div>
-          <div class="next-time">${timeSlots[nextIndex].start} – ${timeSlots[nextIndex].end}</div>
-        </div>`;
-    } else {
-      nextHtml = `
-        <div class="next-info">
-          <div class="label">ALL DONE FOR TODAY</div>
-          <div class="next-name">See you tomorrow 👋</div>
-        </div>`;
+        if (typeIdx === 0) {
+          isDeleting = false;
+          setTimeout(typeLoop, 600);
+          return;
+        }
+        setTimeout(typeLoop, 40);
+      }
     }
 
-    focusEl.innerHTML = `
-      <div class="no-session">
-        <div class="icon">🌙</div>
-        <h2>No Active Session Today</h2>
-        <p>There is no activity happening at this moment. Use this time to rest and recharge.</p>
-        ${nextHtml}
-      </div>`;
-    return;
-  }
+    typeLoop();
 
-  /* ====== CASE 2: ONE ACTIVE ACTIVITY ====== */
-  const current = list[activeIndex];
-  const currentSlot = timeSlots[activeIndex];
-  const nextIndex = activeIndex + 1;
-  const nextActivity = nextIndex < list.length ? list[nextIndex] : null;
-  const nextSlot = nextIndex < timeSlots.length ? timeSlots[nextIndex] : null;
+    /* =====================================================
+       1. TIME SLOTS
+       ===================================================== */
+    const timeSlots = [
+      { start: "06:00", end: "07:00" },
+      { start: "07:00", end: "07:30" },
+      { start: "07:30", end: "08:00" },
+      { start: "08:00", end: "08:40" },
+      { start: "08:40", end: "09:20" },
+      { start: "09:20", end: "10:00" },
+      { start: "10:00", end: "10:30" },
+      { start: "10:30", end: "11:10" },
+      { start: "11:10", end: "11:50" },
+      { start: "11:50", end: "12:30" },
+      { start: "12:30", end: "13:30" },
+      { start: "13:30", end: "14:10" },
+      { start: "14:10", end: "14:50" },
+      { start: "14:50", end: "15:30" },
+      { start: "15:30", end: "17:00" },
+      { start: "17:00", end: "18:00" },
+      { start: "18:00", end: "18:30" },
+      { start: "18:30", end: "20:30" },
+      { start: "20:30", end: "21:15" }
+    ];
 
-  const q = quoteOfTheDay(dayName);
+    /* =====================================================
+       2. WEEKLY SCHEDULE — NO TRADES IN ACTIVITIES
+       ===================================================== */
+    const schedule = {
+      Monday: [
+        { text: "Morning Self-Study", type: "self-study" },
+        { text: "Breakfast", type: "breakfast" },
+        { text: "Prep", type: "self-study" },
+        { text: "Class", type: "class" },
+        { text: "Class", type: "class" },
+        { text: "Class", type: "class" },
+        { text: "BREAK", type: "break" },
+        { text: "Class", type: "class" },
+        { text: "Class", type: "class" },
+        { text: "Class", type: "class" },
+        { text: "LUNCH", type: "lunch" },
+        { text: "Class", type: "class" },
+        { text: "Class", type: "class" },
+        { text: "Class", type: "class" },
+        { text: "Afternoon Self-Study", type: "afternoon" },
+        { text: "Rest / Free Time", type: "break" },
+        { text: "Short Break", type: "break" },
+        { text: "Evening Self-Study", type: "evening" },
+        { text: "Dinner", type: "dinner" }
+      ],
+      Tuesday: [
+        { text: "Morning Self-Study", type: "self-study" },
+        { text: "Breakfast", type: "breakfast" },
+        { text: "Prep", type: "self-study" },
+        { text: "Class", type: "class" },
+        { text: "Class", type: "class" },
+        { text: "Class", type: "class" },
+        { text: "BREAK", type: "break" },
+        { text: "Class", type: "class" },
+        { text: "Class", type: "class" },
+        { text: "Class", type: "class" },
+        { text: "LUNCH", type: "lunch" },
+        { text: "Class", type: "class" },
+        { text: "Class", type: "class" },
+        { text: "Class", type: "class" },
+        { text: "Afternoon Self-Study", type: "afternoon" },
+        { text: "Rest / Free Time", type: "break" },
+        { text: "Short Break", type: "break" },
+        { text: "Evening Self-Study", type: "evening" },
+        { text: "Dinner", type: "dinner" }
+      ],
+      Wednesday: [
+        { text: "Morning Self-Study", type: "self-study" },
+        { text: "Breakfast", type: "breakfast" },
+        { text: "Prep", type: "self-study" },
+        { text: "Class", type: "class" },
+        { text: "Class", type: "class" },
+        { text: "Class", type: "class" },
+        { text: "BREAK", type: "break" },
+        { text: "Class", type: "class" },
+        { text: "Class", type: "class" },
+        { text: "Class", type: "class" },
+        { text: "LUNCH", type: "lunch" },
+        { text: "Class", type: "class" },
+        { text: "Class", type: "class" },
+        { text: "Class", type: "class" },
+        { text: "Afternoon Self-Study", type: "afternoon" },
+        { text: "Rest / Free Time", type: "break" },
+        { text: "Short Break", type: "break" },
+        { text: "Evening Self-Study", type: "evening" },
+        { text: "Dinner", type: "dinner" }
+      ],
+      Thursday: [
+        { text: "Morning Self-Study", type: "self-study" },
+        { text: "Breakfast", type: "breakfast" },
+        { text: "Prep", type: "self-study" },
+        { text: "Class", type: "class" },
+        { text: "Class", type: "class" },
+        { text: "Class", type: "class" },
+        { text: "BREAK", type: "break" },
+        { text: "Class", type: "class" },
+        { text: "Class", type: "class" },
+        { text: "Class", type: "class" },
+        { text: "LUNCH", type: "lunch" },
+        { text: "Class", type: "class" },
+        { text: "Class", type: "class" },
+        { text: "Class", type: "class" },
+        { text: "Afternoon Self-Study", type: "afternoon" },
+        { text: "Rest / Free Time", type: "break" },
+        { text: "Short Break", type: "break" },
+        { text: "Evening Self-Study", type: "evening" },
+        { text: "Dinner", type: "dinner" }
+      ],
+      Friday: [
+        { text: "Morning Self-Study", type: "self-study" },
+        { text: "Breakfast", type: "breakfast" },
+        { text: "Prep", type: "self-study" },
+        { text: "Class", type: "class" },
+        { text: "Class", type: "class" },
+        { text: "Class", type: "class" },
+        { text: "BREAK", type: "break" },
+        { text: "Class", type: "class" },
+        { text: "Class", type: "class" },
+        { text: "Class", type: "class" },
+        { text: "LUNCH", type: "lunch" },
+        { text: "Class", type: "class" },
+        { text: "Class", type: "class" },
+        { text: "Class", type: "class" },
+        { text: "Afternoon Self-Study", type: "afternoon" },
+        { text: "Rest / Free Time", type: "break" },
+        { text: "Short Break", type: "break" },
+        { text: "Evening Self-Study", type: "evening" },
+        { text: "Dinner", type: "dinner" }
+      ],
+      Saturday: [
+        { text: "Morning Self-Study", type: "self-study" },
+        { text: "Breakfast", type: "breakfast" },
+        { text: "Cleaning", type: "cleaning" },
+        { text: "Cleaning", type: "cleaning" },
+        { text: "Cleaning", type: "cleaning" },
+        { text: "Cleaning", type: "cleaning" },
+        { text: "BREAK", type: "break" },
+        { text: "Self-Study", type: "self-study" },
+        { text: "Self-Study", type: "self-study" },
+        { text: "Self-Study", type: "self-study" },
+        { text: "LUNCH", type: "lunch" },
+        { text: "Movie", type: "movie" },
+        { text: "Movie", type: "movie" },
+        { text: "Movie", type: "movie" },
+        { text: "Afternoon Self-Study", type: "afternoon" },
+        { text: "Rest / Free Time", type: "break" },
+        { text: "Short Break", type: "break" },
+        { text: "Evening Self-Study", type: "evening" },
+        { text: "Dinner", type: "dinner" }
+      ],
+      Sunday: [
+        { text: "Morning Self-Study", type: "self-study" },
+        { text: "Breakfast", type: "breakfast" },
+        { text: "Self-Study", type: "self-study" },
+        { text: "Self-Study", type: "self-study" },
+        { text: "Self-Study", type: "self-study" },
+        { text: "Prep for Mass", type: "self-study" },
+        { text: "BREAK", type: "break" },
+        { text: "Mass", type: "mass" },
+        { text: "Mass", type: "mass" },
+        { text: "Mass", type: "mass" },
+        { text: "LUNCH", type: "lunch" },
+        { text: "Club", type: "club" },
+        { text: "Club", type: "club" },
+        { text: "Club", type: "club" },
+        { text: "Afternoon Self-Study", type: "afternoon" },
+        { text: "Rest / Free Time", type: "break" },
+        { text: "Short Break", type: "break" },
+        { text: "Evening Self-Study", type: "evening" },
+        { text: "Dinner", type: "dinner" }
+      ]
+    };
 
-  const nextBlock = nextActivity
-    ? `<div class="next-card">
-         <div class="head">COMING UP NEXT</div>
-         <div class="next-name">${nextActivity.text}</div>
-         <div class="next-time">${nextSlot.start} – ${nextSlot.end}</div>
-       </div>`
-    : `<div class="next-card">
-         <div class="head">COMING UP NEXT</div>
-         <div class="next-name">All done for today</div>
-         <div class="next-time">Rest well, see you tomorrow 👋</div>
-       </div>`;
+    const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
 
-  focusEl.innerHTML = `
-    <div class="current-wrap">
-      <div class="hero-card ${current.type}">
-        <div class="label">CURRENT ACTIVITY</div>
-        <div class="time">${currentSlot.start} – ${currentSlot.end}</div>
-        <div class="name">${current.text}</div>
-        <div class="tag">${current.type.replace("-", " ").toUpperCase()}</div>
-      </div>
-    </div>
+    /* =====================================================
+       3. QUOTES
+       ===================================================== */
+    const quotes = [
+      { text: "Success is the sum of small efforts repeated day in and day out.", author: "— Robert Collier" },
+      { text: "The future belongs to those who prepare for it today.", author: "— Malcolm X" },
+      { text: "Don't watch the clock; do what it does. Keep going.", author: "— Sam Levenson" },
+      { text: "Education is the most powerful weapon you can use to change the world.", author: "— Nelson Mandela" },
+      { text: "Study hard, for the well is deep and our brains are shallow.", author: "— Richard Baxter" },
+      { text: "Believe you can and you're halfway there.", author: "— Theodore Roosevelt" },
+      { text: "The expert in anything was once a beginner.", author: "— Helen Hayes" },
+      { text: "Push yourself, because no one else is going to do it for you.", author: "— Unknown" },
+      { text: "Great things never come from comfort zones.", author: "— Unknown" },
+      { text: "Dream big. Work hard. Stay focused.", author: "— Unknown" },
+      { text: "Your only limit is your mind.", author: "— Unknown" },
+      { text: "Every accomplishment starts with the decision to try.", author: "— John F. Kennedy" },
+      { text: "Discipline is the bridge between goals and accomplishment.", author: "— Jim Rohn" },
+      { text: "The pain of studying is temporary. The pain of ignorance lasts forever.", author: "— Unknown" },
+      { text: "Work hard in silence. Let success make the noise.", author: "— Unknown" }
+    ];
 
-    <div class="side">
-      ${nextBlock}
-      <div class="quote-card">
-        <div class="quote">${q.text}</div>
-        <div class="author">${q.author}</div>
-      </div>
-    </div>
-  `;
-}
+    /* =====================================================
+       4. HELPERS
+       ===================================================== */
+    function toMinutes(hhmm) {
+      const [h, m] = hhmm.split(":").map(Number);
+      return h * 60 + m;
+    }
 
-/* =====================================================
-   6. CLOCK
-   ===================================================== */
-function tick() {
-  const now = new Date();
+    function getActiveDay(now) {
+      const jsDay = now.getDay();
+      const todayIdx = (jsDay + 6) % 7;
+      const currentMin = now.getHours() * 60 + now.getMinutes();
 
-  const hh = String(now.getHours()).padStart(2, "0");
-  const mm = String(now.getMinutes()).padStart(2, "0");
-  const ss = String(now.getSeconds()).padStart(2, "0");
-  document.getElementById("clockTime").textContent = `${hh}:${mm}:${ss}`;
+      const dayStart = toMinutes(timeSlots[0].start);
+      const dayEnd   = toMinutes(timeSlots[timeSlots.length - 1].end);
 
-  const activeDay = getActiveDay(now);
-  renderDay(activeDay, now);
+      if (currentMin >= dayEnd) {
+        const next = new Date(now);
+        next.setDate(next.getDate() + 1);
+        return { name: days[(todayIdx + 1) % 7], date: next, isTomorrow: true };
+      }
+      if (currentMin < dayStart) {
+        return { name: days[todayIdx], date: now, isTomorrow: false };
+      }
+      return { name: days[todayIdx], date: now, isTomorrow: false };
+    }
 
-  /* Progress bar */
-  const currentMin = now.getHours() * 60 + now.getMinutes();
-  const dayStart = toMinutes(timeSlots[0].start);
-  const dayEnd   = toMinutes(timeSlots[timeSlots.length - 1].end);
-  let progress = ((currentMin - dayStart) / (dayEnd - dayStart)) * 100;
-  progress = Math.max(0, Math.min(100, progress));
-  document.getElementById("progressFill").style.width = progress + "%";
-}
+    function findActiveSlot(list, currentMin) {
+      for (let i = 0; i < list.length; i++) {
+        const start = toMinutes(timeSlots[i].start);
+        const end   = toMinutes(timeSlots[i].end);
+        if (currentMin >= start && currentMin < end) return i;
+      }
+      return -1;
+    }
 
-/* =====================================================
-   7. START
-   ===================================================== */
-tick();
-setInterval(tick, 1000);
-</script>
+    function findNextActivity(list, currentMin) {
+      for (let i = 0; i < list.length; i++) {
+        const start = toMinutes(timeSlots[i].start);
+        if (currentMin < start) return i;
+      }
+      return -1;
+    }
+
+    function quoteOfTheDay(dayName) {
+      const idx = days.indexOf(dayName);
+      return quotes[idx % quotes.length];
+    }
+
+    /* =====================================================
+       5. RENDER
+       ===================================================== */
+    const activityEl = document.getElementById("activityArea");
+
+    function renderDay(activeDay, now) {
+      const dayName = activeDay.name;
+      const dateObj = activeDay.date;
+      const list = schedule[dayName];
+      const currentMin = now.getHours() * 60 + now.getMinutes();
+
+      document.getElementById("clockDate").textContent =
+        dateObj.toLocaleDateString(undefined, {
+          weekday: "long",
+          day: "numeric",
+          month: "long"
+        }) + (activeDay.isTomorrow ? " • Tomorrow" : "");
+
+      const activeIndex = activeDay.isTomorrow
+        ? -1
+        : findActiveSlot(list, currentMin);
+
+      /* ----- NO ACTIVE SESSION ----- */
+      if (activeIndex === -1) {
+        const nextIndex = findNextActivity(list, currentMin);
+        let nextHtml = "";
+
+        if (nextIndex !== -1) {
+          const a = list[nextIndex];
+          nextHtml = `
+            <div class="next-info">
+              <div class="label">NEXT UP</div>
+              <div class="next-name">${a.text}</div>
+              <div class="next-time">${timeSlots[nextIndex].start} – ${timeSlots[nextIndex].end}</div>
+            </div>`;
+        } else {
+          nextHtml = `
+            <div class="next-info">
+              <div class="label">ALL DONE FOR TODAY</div>
+              <div class="next-name">See you tomorrow 👋</div>
+            </div>`;
+        }
+
+        activityEl.innerHTML = `
+          <div class="no-session">
+            <div class="icon">🌙</div>
+            <h2>No Active Session Today</h2>
+            <p>There is no activity happening at this moment. Use this time to rest and recharge.</p>
+            ${nextHtml}
+          </div>`;
+        return;
+      }
+
+      /* ----- ONE ACTIVE ACTIVITY ----- */
+      const current = list[activeIndex];
+      const currentSlot = timeSlots[activeIndex];
+      const nextIndex = activeIndex + 1;
+      const nextActivity = nextIndex < list.length ? list[nextIndex] : null;
+      const nextSlot = nextIndex < timeSlots.length ? timeSlots[nextIndex] : null;
+
+      const q = quoteOfTheDay(dayName);
+
+      const nextBlock = nextActivity
+        ? `<div class="next-card">
+             <div class="head">COMING UP NEXT</div>
+             <div class="next-name">${nextActivity.text}</div>
+             <div class="next-time">${nextSlot.start} – ${nextSlot.end}</div>
+           </div>`
+        : `<div class="next-card">
+             <div class="head">COMING UP NEXT</div>
+             <div class="next-name">All done for today</div>
+             <div class="next-time">Rest well, see you tomorrow 👋</div>
+           </div>`;
+
+      activityEl.innerHTML = `
+        <div class="hero-card ${current.type}">
+          <div class="label">CURRENT ACTIVITY</div>
+          <div class="time">${currentSlot.start} – ${currentSlot.end}</div>
+          <div class="name">${current.text}</div>
+          <div class="tag">${current.type.replace("-", " ").toUpperCase()}</div>
+        </div>
+
+        <div class="bottom-row">
+          ${nextBlock}
+          <div class="quote-card">
+            <div class="quote">${q.text}</div>
+            <div class="author">${q.author}</div>
+          </div>
+        </div>
+      `;
+    }
+
+    /* =====================================================
+       6. CLOCK
+       ===================================================== */
+    function tick() {
+      const now = new Date();
+
+      const hh = String(now.getHours()).padStart(2, "0");
+      const mm = String(now.getMinutes()).padStart(2, "0");
+      const ss = String(now.getSeconds()).padStart(2, "0");
+      document.getElementById("clockTime").textContent = `${hh}:${mm}:${ss}`;
+
+      const activeDay = getActiveDay(now);
+      renderDay(activeDay, now);
+
+      const currentMin = now.getHours() * 60 + now.getMinutes();
+      const dayStart = toMinutes(timeSlots[0].start);
+      const dayEnd   = toMinutes(timeSlots[timeSlots.length - 1].end);
+      let progress = ((currentMin - dayStart) / (dayEnd - dayStart)) * 100;
+      progress = Math.max(0, Math.min(100, progress));
+      document.getElementById("progressFill").style.width = progress + "%";
+    }
+
+    /* =====================================================
+       7. START
+       ===================================================== */
+    tick();
+    setInterval(tick, 1000);
+  </script>
 </body>
 </html>
